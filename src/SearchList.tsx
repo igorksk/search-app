@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { DATA, Person } from "./CustomersDB";
+import useDebounce from "./Hooks";
 
 const SearchList: React.FC = () => {
 
@@ -8,11 +9,15 @@ const SearchList: React.FC = () => {
 
   const [searchTerm, setSearchTerm] = useState<string>('');
 
+  const debounceDelay = 500;
+
+  const debouncedSearchTerm = useDebounce(searchTerm, debounceDelay);
+
     const handleSearch = () => {
       if (searchTerm === '') {
         setFilteredCustomersList(customersList);
       } else {
-        setFilteredCustomersList(customersList.filter((c) => c.name.toLowerCase() === searchTerm.toLowerCase()))
+        setFilteredCustomersList(customersList.filter((c) => c.name.toLowerCase().includes(searchTerm.toLowerCase())))
       }
     };
 
@@ -22,6 +27,11 @@ const SearchList: React.FC = () => {
         <li key={index}>{item.name}</li>
       ));
     };
+
+    useEffect(() => {
+      handleSearch();
+      // Perform any action with the debounced value here, e.g., make an API call
+    }, [debouncedSearchTerm]);
   
     return (       
       <div>
@@ -31,7 +41,6 @@ const SearchList: React.FC = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <button onClick={handleSearch}>Search</button>
         <h2>List of Items</h2>
         <ul>
           {mapDataToHtmlList(filteredCustomersList)}
