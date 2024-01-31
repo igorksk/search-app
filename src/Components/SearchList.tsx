@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
-import { DATA, Person } from "./CustomersDB";
+import { DATA, Person } from "../Data/CustomersDB";
 import useDebounce from "./Hooks";
+import PersonCard from "./PersonCard";
+
+
 
 const SearchList: React.FC = () => {
 
-  const [customersList, ] = useState<Person[]>(DATA);
+  const [customersList] = useState<Person[]>(DATA);
   const [filteredCustomersList, setFilteredCustomersList] = useState<Person[]>(DATA);
 
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -21,13 +24,7 @@ const SearchList: React.FC = () => {
       }
     };
 
-    // Function to map data to HTML list
-    const mapDataToHtmlList = (data : Person[]): JSX.Element[] => {
-      return data.map((item, index) => (
-        <li key={index}>{item.name}</li>
-      ));
-    };
-
+    
     useEffect(() => {
       handleSearch();
       // Perform any action with the debounced value here, e.g., make an API call
@@ -35,16 +32,15 @@ const SearchList: React.FC = () => {
   
     return (       
       <div>
-        <input
+        <input className="search-input"
           type="text"
           placeholder="Enter your search term"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <h2>List of Items</h2>
-        <ul>
-          {mapDataToHtmlList(filteredCustomersList)}
-        </ul>
+          {filteredCustomersList.map((person) => (
+            <PersonCard key={person.id} person={person} />
+          ))}
       </div>
     );
   };
