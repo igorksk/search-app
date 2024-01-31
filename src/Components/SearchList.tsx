@@ -20,7 +20,7 @@ const SearchList: React.FC = () => {
       if (searchTerm === '') {
         setFilteredCustomersList(customersList);
       } else {
-        setFilteredCustomersList(customersList.filter((c) => c.name.toLowerCase().includes(searchTerm.toLowerCase())))
+        setFilteredCustomersList(customersList.filter((c) => c.name.toLowerCase().startsWith(searchTerm.toLowerCase())))
       }
     };
 
