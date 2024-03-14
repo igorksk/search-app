@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 
 // Custom useDebounce hook

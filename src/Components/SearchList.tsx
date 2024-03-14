@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
-import { DATA, Person } from "../Data/CustomersDB";
-import useDebounce from "./Hooks";
-import PersonCard from "./PersonCard";
-
-
+import { DATA, Person } from "../data/CustomersDB";
+import { debounceDelay } from "../data/Constants";
+import useDebounce from "../hooks/Hooks";
+import PersonCard from "./PersonCard"
 
 const SearchList: React.FC = () => {
 
@@ -11,8 +10,6 @@ const SearchList: React.FC = () => {
   const [filteredCustomersList, setFilteredCustomersList] = useState<Person[]>(DATA);
 
   const [searchTerm, setSearchTerm] = useState<string>('');
-
-  const debounceDelay = 500;
 
   const debouncedSearchTerm = useDebounce(searchTerm, debounceDelay);
 

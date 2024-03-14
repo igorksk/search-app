@@ -1,4 +1,4 @@
-import { Person } from "../Data/CustomersDB";
+import { Person } from "../data/CustomersDB";
 
 interface PersonCardProps {
     person: Person;
